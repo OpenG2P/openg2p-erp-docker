@@ -1,0 +1,16 @@
+git+https://github.com/OCA/openupgradelib.git@master
+unicodecsv
+unidecode
+pyotp
+zxcvbn
+cachetools
+boto3
+phonenumbers
+geojson
+Shapely
+xlsxwriter
+cerberus
+pyquerystring
+parse-accept-language
+cryptography
+pysftp

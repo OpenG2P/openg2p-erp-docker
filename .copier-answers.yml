@@ -1,0 +1,34 @@
+# Changes here will be overwritten by Copier
+_commit: v1.5.3
+_src_path: gh:Tecnativa/doodba-copier-template
+backup_deletion: false
+backup_dst: null
+backup_email_from: null
+backup_email_to: null
+backup_tz: UTC
+cidr_whitelist: null
+domain_prod: null
+domain_prod_alternatives: null
+domain_test: null
+gitlab_url: null
+odoo_dbfilter: .*
+odoo_initial_lang: en_US
+odoo_listdb: false
+odoo_oci_image: null
+odoo_proxy: traefik
+odoo_version: 12.0
+paths_without_crawlers:
+  - /web
+  - /website/info
+postgres_dbname: openg2p
+postgres_username: odoo
+postgres_version: 12
+project_author: OpenG2P
+project_license: AGPL-3.0-or-later
+project_name: openg2p-docker
+smtp_canonical_default: null
+smtp_canonical_domains: null
+smtp_default_from: null
+smtp_relay_host: null
+smtp_relay_port: 587
+smtp_relay_user: null

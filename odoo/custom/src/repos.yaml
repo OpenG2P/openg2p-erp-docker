@@ -1,0 +1,34 @@
+# See https://github.com/Tecnativa/doodba#optodoocustomsrcreposyaml
+./odoo:
+  defaults:
+    # Shallow repositories ($DEPTH_DEFAULT=1) are faster & thinner
+    # You may need a bigger depth when merging PRs (use $DEPTH_MERGE
+    # for a sane value of 100 commits)
+    depth: $DEPTH_DEFAULT
+  remotes:
+    ocb: https://github.com/OCA/OCB.git
+    odoo: https://github.com/odoo/odoo.git
+    openupgrade: https://github.com/OCA/OpenUpgrade.git
+  target: ocb $ODOO_VERSION
+  merges:
+    - ocb $ODOO_VERSION
+    # Example of a merge of the PR with the number <PR>
+    # - oca refs/pull/<PR>/head
+
+./community:
+  defaults:
+    depth: $DEPTH_DEFAULT
+  remotes:
+    community: https://github.com/OpenG2P/openg2p-erp-community-addon.git
+  target: community master
+  merges:
+    - community master
+
+./openg2p:
+  defaults:
+    depth: $DEPTH_DEFAULT
+  remotes:
+    openg2p: https://github.com/OpenG2P/openg2p-erp.git
+  target: openg2p master
+  merges:
+    - openg2p master

@@ -1,0 +1,66 @@
+server-tools:
+  - auditlog
+  - base_search_fuzzy
+  - module_auto_update
+  - ir_sequence_standard_default
+  - auto_backup
+server-auth:
+  - auth_session_timeout
+  - auth_totp
+  - auth_user_case_insensitive
+  - password_security
+server-backend:
+  - base_suspend_security
+community-data-files:
+  - base_currency_iso_4217
+queue:
+  - base_export_async
+  - base_import_async
+  - queue_job
+  - queue_job_batch
+rest-framework:
+  - base_rest
+connector:
+  - component
+  - component_event
+community:
+  - crnd_web_button_box_full_width
+  - disable_odoo_online
+  - field_image_preview
+  - keychain
+  - muk_autovacuum
+  - muk_utils
+  - muk_web_searchpanel
+  - muk_web_theme
+  - muk_web_utils
+  - remove_export_option
+  - sms_frame
+  - web_listview_sticky_header
+server-brand:
+  - display_import_button
+  - remove_odoo_enterprise
+reporting-engine:
+  - report_xlsx
+  - report_xlsx_helper
+helpdesk:
+  - helpdesk_mgmt
+server-ux:
+  - mass_editing
+partner-contact:
+  - partner_firstname
+server-env:
+  - server_environment
+storage:
+  - storage_backend
+  - storage_backend_s3
+web:
+  - web_advanced_search
+  - web_edit_user_filter
+  - web_export_view
+  - web_ir_actions_act_window_message
+  - web_listview_range_select
+  - web_m2x_options
+  - web_notify
+  - web_ir_actions_close_wizard_refresh_view
+openg2p:
+  - "*"
