@@ -12,6 +12,7 @@ services:
     environment:
       DOODBA_ENVIRONMENT: "${DOODBA_ENVIRONMENT-prod}"
       INITIAL_LANG: "$INITIAL_LANG"
+      ODOO_ENV: "prod"
     depends_on:
       - db
     networks:

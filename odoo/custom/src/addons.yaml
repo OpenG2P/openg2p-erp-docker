@@ -36,6 +36,8 @@ community:
   - remove_export_option
   - sms_frame
   - web_listview_sticky_header
+  - generic_mixin
+  - display_import_button
 server-brand:
   - display_import_button
   - remove_odoo_enterprise

@@ -14,14 +14,14 @@ gitlab_url: null
 odoo_dbfilter: .*
 odoo_initial_lang: en_US
 odoo_listdb: false
-odoo_oci_image: null
+odoo_oci_image: hub.docker.com/repository/docker/openg2p/openg2p
 odoo_proxy: traefik
 odoo_version: 12.0
 paths_without_crawlers:
   - /web
   - /website/info
 postgres_dbname: openg2p
-postgres_username: odoo
+postgres_username: openg2p
 postgres_version: 12
 project_author: OpenG2P
 project_license: AGPL-3.0-or-later
