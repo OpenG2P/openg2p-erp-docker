@@ -10,7 +10,7 @@ services:
       - .docker/odoo.env
       - .docker/db-access.env
     environment:
-      DOODBA_ENVIRONMENT: "${DOODBA_ENVIRONMENT-stage}"
+      DOODBA_ENVIRONMENT: "${DOODBA_ENVIRONMENT-staging}"
       INITIAL_LANG: "$INITIAL_LANG"
       WITHOUT_DEMO: "${DOODBA_WITHOUT_DEMO-false}"
     depends_on:
