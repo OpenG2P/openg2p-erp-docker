@@ -15,6 +15,30 @@ recourse.
 
 ## Installation
 
+### Prerequiste
+
+## Install the dependencies
+
+This project itself is just the template, but you need to install these tools to use it:
+
+- [copier][] v3.0.6 or newer
+- [git](https://git-scm.com/) 2.24 or newer
+- [invoke](https://www.pyinvoke.org/) installed in Python 3.6+ (and the binary must be
+  called `invoke` — beware if your distro installs it as `invoke3` or similar).
+- [pre-commit](https://pre-commit.com/)
+- [python](https://www.python.org/) 3.6+
+
+Install non-python apps with your distro's recommended package manager. The recommended
+way to install Python CLI apps is [pipx](https://pipxproject.github.io/pipx/):
+
+```bash
+python3 -m pip install --user pipx
+pipx install copier
+pipx install invoke
+pipx install pre-commit
+pipx ensurepath
+```
+
 ### Getting Starting
 
 Clone or Download the repository to your target machine
