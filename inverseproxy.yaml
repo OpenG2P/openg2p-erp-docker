@@ -19,12 +19,12 @@ services:
     tty: true
     command:
       - --ACME.ACMELogging
-      - --ACME.Email=develop@openg2p.org
+      - --ACME.Email=you@example.com
       - --ACME.EntryPoint=https
       - --ACME.HTTPChallenge.entryPoint=http
       - --ACME.OnHostRule
       - --ACME.Storage=/etc/traefik/acme/acme.json
-      - --DefaultsEntryPoints=http,https
+      - --DefaultEntryPoints=http,https
       - --EntryPoints=Name:http Address::80 Redirect.EntryPoint:https
       - --EntryPoints=Name:https Address::443 TLS
       - --LogLevel=INFO
