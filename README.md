@@ -423,7 +423,7 @@ docker-compose logs -f --tail 10
 Only OpenG2P's:
 
 ```bash
-docker-compose logs -f --tail 10 odoo
+docker-compose cc
 ```
 
 ### Install some addon without stopping current running process
@@ -480,6 +480,7 @@ Then open `http://localhost:$SomeFreePort`.
 
 This project is a Doodba scaffolding. Check upstream docs on the matter:
 
+- [Production Access](faq.md#how-to-bootstrap-the-global-inverse-proxy) before
 - [General Doodba docs](https://github.com/Tecnativa/doodba).
 - [Doodba copier template docs](https://github.com/Tecnativa/doodba-copier-template)
 - [Doodba QA docs](https://github.com/Tecnativa/doodba-qa)
