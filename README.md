@@ -264,7 +264,7 @@ docker-compose -f prod.yaml up -d
 ### Testing
 
 A good rule of thumb is test in testing before uploading to production, so this
-environment tries to imitate the [production][] one in everything, but _removing
+environment tries to imitate the **production** one in everything, but _removing
 possible pollution points_:
 
 - It has [a fake `smtp` service based on MailHog](#mailhog), just like development.
@@ -460,7 +460,7 @@ Just run:
 docker-compose run --rm odoo click-odoo-update --watcher-max-seconds 30
 ```
 
-This script is part of [`click-odoo-contrib`][]; check it for more details.
+This script is part of [`click-odoo-contrib`](https://github.com/acsone/click-odoo-contrib); check it for more details.
 
 \* Note: `--watcher-max-seconds` is available because we ship a
 [patched](https://github.com/acsone/click-odoo-contrib/pull/38) version. Check that PR
