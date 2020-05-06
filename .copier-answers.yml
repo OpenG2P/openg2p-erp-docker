@@ -14,7 +14,7 @@ gitlab_url: null
 odoo_dbfilter: .*
 odoo_initial_lang: en_US
 odoo_listdb: false
-odoo_oci_image: openg2p/erp
+odoo_oci_image: openg2p/crm
 odoo_proxy: traefik
 odoo_version: 12.0
 paths_without_crawlers:

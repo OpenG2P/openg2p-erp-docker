@@ -44,7 +44,7 @@ pipx ensurepath
 Clone or Download the repository to your target machine
 
 ```bash
-git clone git@github.com:OpenG2P/openg2p-erp-docker.git
+git clone git@github.com:OpenG2P/openg2p-crm-docker.git
 ```
 
 Get the OpenG2P code with:
