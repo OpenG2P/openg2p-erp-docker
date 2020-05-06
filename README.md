@@ -6,29 +6,35 @@
 
 # Open G2P Docker
 
-This repo dockerize OpenG2P.
+This repo dockerizes OpenG2P.
 
-“OpenG2P” is a set of digital building blocks opensourced to support large scale cash
-transfer programs digitize key cogs in their delivery chain: 1) beneficiary targeting
-and enrollment, 2) beneficiary list management, 3) payment digitization, and 4)
-recourse.
+“OpenG2P” is a set of digital building blocks open sourced to support large scale cash
+transfer programs, with the goal of digitizing key processes in their delivery chain:
+
+1. beneficiary targeting and enrollment
+2. beneficiary list management
+3. payment digitization
+4. recourse
 
 ## Installation
 
-### Prerequiste
+### Prerequistes
 
-## Install the dependencies
+ToDo
+
+### Install the dependencies
 
 This project itself is just the template, but you need to install these tools to use it:
 
-- [copier][] v3.0.6 or newer
-- [git](https://git-scm.com/) 2.24 or newer
-- [invoke](https://www.pyinvoke.org/) installed in Python 3.6+ (and the binary must be
-  called `invoke` — beware if your distro installs it as `invoke3` or similar).
-- [pre-commit](https://pre-commit.com/)
 - [python](https://www.python.org/) 3.6+
+- Python packages:
+    - [copier](https://github.com/pykong/copier) v3.0.6 or newer
+    - [invoke](https://www.pyinvoke.org/) installed in Python 3.6+ (and the binary must be
+  called `invoke` — beware if your distro installs it as `invoke3` or similar).
+    - [pre-commit](https://pre-commit.com/)
+- [git](https://git-scm.com/) 2.24 or newer
 
-Install non-python apps with your distro's recommended package manager. The recommended
+Install non-Python apps with your distro's recommended package manager. The recommended
 way to install Python CLI apps is [pipx](https://pipxproject.github.io/pipx/):
 
 ```bash
@@ -39,71 +45,80 @@ pipx install pre-commit
 pipx ensurepath
 ```
 
-### Getting Starting
+## Getting Started
 
-Clone or Download the repository to your target machine
+1. Clone or download this repository onto your host computer:
 
-```bash
-git clone git@github.com:OpenG2P/openg2p-erp-docker.git
-```
+* Using HTTPS:
 
-Get the OpenG2P code with:
+    ```bash
+    git clone git@github.com:OpenG2P/openg2p-erp-docker.git
+    ```
 
-```bash
-invoke git-aggregate
-invoke img-build --pull
-```
+* Using SSH:
 
-Get the OpenG2P code with:
+    ```bash
+    git clone https://github.com/OpenG2P/openg2p-erp-docker.git
+    ```
 
-```bash
-docker-compose run --rm odoo odoo --stop-after-init -i openg2p
-```
+2. Get the OpenG2P code with:
 
-Above will by default use `devel.yaml` if installing for production please use
-`prod.yaml`
+    ```bash
+    invoke git-aggregate
+    invoke img-build --pull
+    ```
 
-Start OpenG2P with:
+3. Launch OpenG2P:
 
-```bash
-invoke start
-```
+    ```bash
+    docker-compose run --rm odoo odoo --stop-after-init -i openg2p
+    ```
 
-List other tasks shipped with this project:
+    The above configuration will default to using `devel.yaml`. If installing for production, use `prod.yaml` instead.
 
-```bash
-invoke --list
-```
+4. Start OpenG2P with:
 
-Clean out project if we invoked git-aggregate or used setup-devel.yaml. Run this before
-git add
+    ```bash
+    invoke start
+    ```
 
-```bash
-git clean -ffd
-```
+5. List other tasks shipped with this project:
 
-To browse OpenG2P go to `http://localhost:12069`.
+    ```bash
+    invoke --list
+    ```
 
-### Updating
+6. To browse OpenG2P go to `http://localhost:12069`.
+
+7. Clean out project if we invoked `git-aggregate` or used `setup-devel.yaml`. Run this before
+git add:
+
+    ```bash
+    git clean -ffd
+    ```
+
+## Updating
 
 ```bash
 git pull
 invoke git-aggregate
 invoke img-build --pull
-docker-compose build --pull  # we don't really need this after the first
+docker-compose build --pull  # we don't really need this after the first build
 docker-compose run --rm odoo odoo --stop-after-init -u base  # Updates addons with new image
 docker-compose -f up -d
 ```
 
-#### MailHog
+## Subcomponents
+
+### MailHog
 
 We use [MailHog](https://github.com/mailhog/MailHog) to provide a fake SMTP server that
 intercepts all mail sent by OpenG2P and displays a simple interface that lets you see
 and debug all that mail comfortably, including headers sent, attachments, etc.
 
-- For [development][], it's in http://localhost:8025
-- For [testing][], it's in http://$DOMAIN_TEST/smtpfake/
-- For [production][], it's not used.
+- For **development**, it's in http://localhost:8025
+- For **testing**, it's in http://$DOMAIN_TEST/smtpfake/
+- For **production**, it's not used.
 
 All environments are configured by default to use the bundled SMTP relay. They are
 configured by these environment variables:
@@ -117,10 +132,10 @@ configured by these environment variables:
 
 For them to be useful, you need to remove any `ir.mail_server` records in your database.
 
-#### Network isolation
+### Network isolation
 
 The Docker network is in `--internal` mode, which means that it has no access to the
-Internet. This feature protects you in cases where a [production][] database is restored
+Internet. This feature protects you in cases where a **production** database is restored
 and OpenG2P tries to connect to SMTP/IMAP/POP3 servers to send or receive emails. Also
 when you are using [connectors](https://github.com/OCA/connector),
 [mail trackers](https://www.odoo.com/apps/modules/browse?search=mail_tracking) or any
@@ -134,14 +149,13 @@ it, and possibly restart them. You can also just do:
 docker-compose down
 invoke start
 ```
-
 Usually a better option is
 [whitelisting](faq.md#how-can-i-whitelist-a-service-and-allow-external-access-to-it).
 
-#### wdb
+### wdb
 
-[`wdb`](https://github.com/Kozea/wdb/) is one of the greatest Python debugger available,
-and even more for Docker-based development, so here you have it preinstalled.
+[`wdb`](https://github.com/Kozea/wdb/) is one of the greatest Python debuggers available,
+and even more for a Docker-based development, so here you have it preinstalled.
 
 To use it, write this in any Python script:
 
@@ -150,17 +164,17 @@ import wdb
 wdb.set_trace()
 ```
 
-It's available by default on the [development][] environment, where you can browse
+It's available by default on the **development** environment, where you can browse
 http://localhost:1984 to use it.
 
 **⚠️ DO NOT USE IT IN PRODUCTION ENVIRONMENTS ⚠️** (I had to say it).
 
-### Production
+## Production Environment
 
-It includes pluggable `smtp` and `backup` services, that will be or not generated
+It includes pluggable `smtp` and `backup` services, that will be generated or not
 depending on your answers when copying the template.
 
-#### Adding secrets
+### Adding secrets
 
 To boot this environment, these files must be present:
 
@@ -177,7 +191,7 @@ Copier creates them for you when copying the template, but since they are all
 git-ignored (for obvious reasons), you might need to copy them manually when deploying
 to production.
 
-#### Booting production
+### Booting production
 
 Once secrets are in place and you started the
 [global inverse proxy](faq.md#how-to-bootstrap-the-global-inverse-proxy), run the
@@ -187,7 +201,7 @@ production environment with:
 docker-compose -f prod.yaml up -d
 ```
 
-#### Backups
+### Backups
 
 Backups are only available in the production environment. They are provided by
 [tecnativa/duplicity:postgres-s3](https://github.com/Tecnativa/docker-duplicity). The
@@ -236,7 +250,7 @@ docker-compose exec backup sh -c 'psql -f $SRC/$PGDATABASE.sql'
 docker-compose up -d
 ```
 
-### Updating
+### Updating a Production Environment
 
 ```bash
 git pull
@@ -245,14 +259,50 @@ docker-compose -f prod.yaml run --rm odoo odoo --stop-after-init -u base  # Upda
 docker-compose -f prod.yaml up -d
 ```
 
-#### Global whitelist
+## Development Environment
+
+### Testing
+
+A good rule of thumb is test in testing before uploading to production, so this
+environment tries to imitate the [production][] one in everything, but _removing
+possible pollution points_:
+
+- It has [a fake `smtp` service based on MailHog](#mailhog), just like development.
+
+- It has no `backup` service.
+
+- It is [isolated](#network-isolation).
+
+To use it, you need to [add secrets files just like for production](#adding-secrets),
+although secrets for smtp and backup containers are not needed because those don't exist
+here. Also, start
+[the global inverse proxy](faq.md#how-to-bootstrap-the-global-inverse-proxy) before
+running the test environment.
+
+Test it in your machine with:
+
+```bash
+docker-compose -f test.yaml up -d
+```
+
+### Reseting
+
+At times we find ourselves having to blow away docker and start from scratch. Only use
+the command below if you know what you are doing as it blows away all the volumes and
+images on your engine.
+
+```bash
+docker system prune
+```
+
+### Global whitelist
 
 Since the testing environment is [network-isolated](#network-isolation), this can change
 some deadlocks or big timeouts in code chunks that are not ready for such situation.
 OpenG2P happens to have some of them.
 
-The [development][] environment includes the default recommended whitelist proxies, but
-for [testing][], it is recommended to have a separate docker compose project running
+The **development** environment includes the default recommended whitelist proxies, but
+for **testing**, it is recommended to have a separate docker compose project running
 along in the same server that provides a `globalwhitelist_default` network where all
 whitelist proxies exist. This is a better practice for a testing environment where many
 services might coexist, because it will let you save lots of processing power and IP
@@ -337,42 +387,6 @@ services:
 
 </details>
 
-## Development
-
-#### Testing
-
-A good rule of thumb is test in testing before uploading to production, so this
-environment tries to imitate the [production][] one in everything, but _removing
-possible pollution points_:
-
-- It has [a fake `smtp` service based on MailHog](#mailhog), just like development.
-
-- It has no `backup` service.
-
-- It is [isolated](#network-isolation).
-
-To use it, you need to [add secrets files just like for production](#adding-secrets),
-although secrets for smtp and backup containers are not needed because those don't exist
-here. Also, start
-[the global inverse proxy](faq.md#how-to-bootstrap-the-global-inverse-proxy) before
-running the test environment.
-
-Test it in your machine with:
-
-```bash
-docker-compose -f test.yaml up -d
-```
-
-#### Reseting
-
-At times we find ourselves having to blow away docker and start from scratch. Only use
-the command below if you know what you are doing as it blows away all the volumes and
-images on your engine.
-
-```bash
-docker system prune
-```
-
 ## Other usage scenarios
 
 In examples below I will skip the `-f <environment>.yaml` part and assume you know which
@@ -454,7 +468,7 @@ for docs.
 
 \* Note: This replaces the old deprecated `autoupdate` script.
 
-### Export some addon's translations to stdout
+### Export some addons translations to stdout
 
 ```bash
 docker-compose run --rm odoo pot addon1[,addon2]
@@ -478,7 +492,7 @@ Then open `http://localhost:$SomeFreePort`.
 
 ## Links
 
-This project is a Doodba scaffolding. Check upstream docs on the matter:
+This project is a Doodba scaffolding. Check the corresponding upstream docs:
 
 - [Production Access](faq.md#how-to-bootstrap-the-global-inverse-proxy) before
 - [General Doodba docs](https://github.com/Tecnativa/doodba).
