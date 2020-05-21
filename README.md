@@ -6,7 +6,7 @@
 
 # Open G2P Docker
 
-This repo dockerizes OpenG2P CRM.
+This repo dockerizes OpenG2P ERP.
 
 “OpenG2P” is a set of digital building blocks opensourced to support large scale cash
 transfer programs digitize key cogs in their delivery chain: 1) beneficiary targeting
