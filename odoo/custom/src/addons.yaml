@@ -48,6 +48,7 @@ helpdesk:
   - helpdesk_mgmt
 server-ux:
   - mass_editing
+  - mass_operation_abstract
 partner-contact:
   - partner_firstname
 server-env:
