@@ -1,0 +1,81 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: openg2p-erp
+  name: openg2p-erp
+spec:
+  ports:
+  - protocol: TCP
+    port: 8069
+    targetPort: 8069
+  selector:
+    app: openg2p-erp
+    tier: backend
+  type: LoadBalancer
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openg2p-erp
+  labels:
+    app: openg2p-erp
+spec:
+  selector:
+    matchLabels:
+      app: openg2p-erp
+      tier: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: openg2p-erp
+        tier: backend
+    spec:
+      initContainers:
+        - name: init-mydb
+          image: busybox:1.28
+          command: ['sh', '-c', 'echo -e "Checking for the availability of PostgreSQL server deployment"; while ! nc -z "openg2perpsql" 5432; do sleep 1; printf "-"; done; echo -e " >> PostgreSQL server has started";']
+      containers:
+      - name: openg2p-erp
+        image: us.icr.io/phee-ns/odoo12:latest
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "3Gi"
+          requests:
+            cpu: "200m"
+            memory: "1.5Gi"
+        env:
+        - name: ODOO_MAJOR
+          value: "12"
+        - name: ODOO_MINOR
+          value: "12.0"
+        - name: INITIAL_LANG
+          value: en_US
+        - name: ODOO_IMAGE
+          value: us.icr.io/phee-ns/odoo12:latest
+        - name: ODOO_PROXY_MODE
+          value: "true"
+        - name: PGDATABASE
+          value: openg2p
+        - name: PGUSER
+          value: openg2p
+        - name: DB_VERSION
+          value: "12"
+        - name: DB_USER
+          value: openg2p
+        - name: ADMIN_PASSWORD
+          value: Chintu@98
+        - name: PGPASSWORD
+          value: Chintu@98
+        - name: POSTGRES_PASSWORD
+          value: Chintu@98
+        - name: DB_FILTER
+          value: .*
+        ports:
+        - containerPort: 8069
+          name: openg2p-erp
