@@ -81,19 +81,17 @@ spec:
               value: openg2p
             - name: POSTGRES_USER
               value: openg2p
-              
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: "trust"
+            - name: PGDATA
+              value: /var/lib/postgresql/data/openg2p/
           ports:
             - containerPort: 5432
               name: openg2perpsql
           volumeMounts:
-            - name: openg2perpsql-initdb
-              mountPath: /docker-entrypoint-initdb.d/
             - name: openg2perpsql-persistent-storage
               mountPath: /var/lib/postgresql/data
       volumes:
-        - name: openg2perpsql-initdb
-          configMap:
-            name: openg2perpsql-initdb
         - name: openg2perpsql-persistent-storage
           persistentVolumeClaim:
             claimName: openg2perpsql-pv-claim

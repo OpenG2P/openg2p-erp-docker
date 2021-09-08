@@ -57,7 +57,7 @@ spec:
         - name: INITIAL_LANG
           value: en_US
         - name: ODOO_IMAGE
-          value: us.icr.io/phee-ns/odoo12:latest
+          value: shanidkh/openg2p-erp:latest
         - name: ODOO_PROXY_MODE
           value: "true"
         - name: PGDATABASE
@@ -76,6 +76,8 @@ spec:
           value: Chintu@98
         - name: DB_FILTER
           value: .*
+        - name: PGDATA
+          value: /var/lib/postgresql/data/openg2p/
         ports:
         - containerPort: 8069
           name: openg2p-erp
