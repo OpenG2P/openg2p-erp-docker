@@ -57,7 +57,7 @@ spec:
         - name: INITIAL_LANG
           value: en_US
         - name: ODOO_IMAGE
-          value: shanidkh/openg2p-erp:latest
+          value: us.icr.io/phee-ns/odoo12:latest
         - name: ODOO_PROXY_MODE
           value: "true"
         - name: PGDATABASE
