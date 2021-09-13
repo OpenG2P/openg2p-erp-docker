@@ -183,10 +183,12 @@ initContainers:
   - name: git-clone-openg2p
     image: bitnami/odoo
     command: ["/bin/sh","-c"]
-    args: ['apt-get update && apt-get install -y git && git clone https://github.com/OpenG2P/openg2p-erp.git && git clone https://github.com/OpenG2P/openg2p-erp-community-addon.git /bitnami/odoo/addons']
+    args: ['apt-get update && apt-get install -y git && rm -rf bitnami/odoo/addons/.git && git clone https://github.com/OpenG2P/openg2p-erp.git /bitnami/odoo/addons && rm -rf bitnami/odoo/addons/.git && git clone https://github.com/OpenG2P/openg2p-erp-community-addon.git /bitnami/odoo/addons']
+    volumeMounts:
+      - name: odoo-data
+        mountPath: "/bitnami/odoo/addons"
 
 
-# extraVolumes: []
 ## @param extraVolumeMounts Optionally specify extra list of additional volumeMounts for Odoo container(s)
 ##
 # extraVolumeMounts: []
@@ -513,7 +515,7 @@ persistence:
 volumePermissions:
   ## @param volumePermissions.enabled Enable init container that changes the owner/group of the PV mount point to `runAsUser:fsGroup`
   ##
-  enabled: false
+  enabled: true
   ## Init container's resource requests and limits
   ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
   ## @param volumePermissions.resources.limits The resources limits for the init container
