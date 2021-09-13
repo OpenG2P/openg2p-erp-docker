@@ -19,7 +19,7 @@
   defaults:
     depth: $DEPTH_DEFAULT
   remotes:
-    community: https://github.com/openg2p-dev/openg2p-erp-community-addon.git
+    community: https://github.com/OpenG2P/openg2p-erp-community-addon.git
   target: community master
   merges:
     - community master
@@ -28,7 +28,7 @@
   defaults:
     depth: $DEPTH_DEFAULT
   remotes:
-    openg2p: https://github.com/openg2p-dev/openg2p-erp.git
+    openg2p: https://github.com/OpenG2P/openg2p-erp.git
   target: openg2p master
   merges:
     - openg2p master
