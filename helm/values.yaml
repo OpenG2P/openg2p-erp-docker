@@ -48,7 +48,7 @@ extraDeploy: []
 ##
 image:
   registry: docker.io
-  repository: odoo
+  repository: bitnami/odoo
   tag: 12.0
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -89,13 +89,15 @@ loadDemoData: false
 ## NOTE: supported formats are `.sh`, `.sql` or `.php`
 ## NOTE: scripts are exclusively executed during the 1st boot of the container
 ## e.g:
-## customPostInitScripts:
-##   enable-logs.sh: |
+customPostInitScripts:
+  enable-modules.sh: |
+    #!/bin/bash
+    pip3 install cachetools boto3 cerberus pyquerystring parse-accept-language
 ##     #!/bin/bash
 ##     sed -i s/;logfile/logfile/ /opt/bitnami/odoo/conf/odoo.conf
 ##     ...
 ##
-customPostInitScripts: {}
+# customPostInitScripts: {}
 ## SMTP mail delivery configuration
 ## ref: https://github.com/bitnami/bitnami-docker-odoo/#smtp-configuration
 ## @param smtpHost SMTP server host
@@ -134,15 +136,15 @@ args: []
 ##   - name: FOO
 ##     value: "bar"
 ##
-extraEnvVars:
-  - name: HOST
-    value: openg2p-erp12-postgresql
-  - name: USER
-    value: openg2p
-  - name: PASSWORD
-    value: openg2p
-  - name: POSTGRES_DB
-    value: openg2p
+# extraEnvVars:
+#   - name: HOST
+#     value: openg2p-erp12-postgresql
+#   - name: USER
+#     value: openg2p
+#   - name: PASSWORD
+#     value: openg2p
+#   - name: POSTGRES_DB
+#     value: openg2p
 ## @param extraEnvVarsCM Name of existing ConfigMap containing extra env vars
 ##
 extraEnvVarsCM: ""
@@ -592,7 +594,7 @@ postgresql:
   ## @param postgresql.postgresqlPassword PostgreSQL password
   ## ref: https://hub.docker.com/_/postgres/
   ##
-  postgresqlPassword: openg2p
+  postgresqlPassword: "openg2p"
   ## @param postgresql.postgresqlDatabase PostgreSQL database
   ## ref: https://github.com/bitnami/bitnami-docker-postgresql/blob/master/README.md#creating-a-database-on-first-run
   ##
@@ -647,7 +649,7 @@ externalDatabase:
   user: openg2p
   ## @param externalDatabase.password External Database user password
   ##
-  password: openg2p
+  password: "openg2p"
   ## @param externalDatabase.database External Database database name
   ##
   database: openg2p
@@ -660,7 +662,7 @@ externalDatabase:
   postgresqlPostgresUser: "openg2p"
   ## @param externalDatabase.postgresqlPostgresPassword External Database admin password
   ##
-  postgresqlPostgresPassword: openg2p
+  postgresqlPostgresPassword: "openg2p"
   ## @param externalDatabase.existingSecret Name of existing secret object
   ## The secret should contain the following keys:
   ## postgresql-postgres-password (for root user)
