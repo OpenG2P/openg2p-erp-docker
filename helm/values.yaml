@@ -48,7 +48,7 @@ extraDeploy: []
 ##
 image:
   registry: docker.io
-  repository: bitnami/odoo
+  repository: odoo
   tag: 12.0
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -195,7 +195,7 @@ extraVolumes:
 ##
 extraVolumeMounts:
   - name: odoo-addons
-    mountPath: "/opt/bitnami/odoo/addons"
+    mountPath: "/mnt/extra-addons"
 ## @param sidecars Add additional sidecar containers to the Odoo pod
 ## e.g:
 ## sidecars:
@@ -227,11 +227,11 @@ initContainers:
         --no-check-certificate -O openg2p-erp-community-addon-master.zip
         https://github.com/OpenG2P/openg2p-erp-community-addon/archive/master.zip &&
         unzip openg2p-erp-community-addon-master.zip -d ./tmp && unzip
-        openg2p-erp-master.zip -d ./tmp && mv ./tmp/*/* /opt/bitnami/odoo/addons",
+        openg2p-erp-master.zip -d ./tmp && mv ./tmp/*/* /mnt/extra-addons",
       ]
     volumeMounts:
       - name: odoo-addons
-        mountPath: "/opt/bitnami/odoo/addons"
+        mountPath: "/mnt/extra-addons"
 ## @param podLabels Extra labels for Odoo pods
 ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
 ##
