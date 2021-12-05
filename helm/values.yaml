@@ -48,7 +48,7 @@ extraDeploy: []
 ##
 image:
   registry: docker.io
-  repository: bitnami/odoo
+  repository: odoo
   tag: 12.0
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
@@ -92,7 +92,7 @@ loadDemoData: false
 customPostInitScripts:
   enable-modules.sh: |
     #!/bin/bash
-    pip3 install cachetools boto3 cerberus pyquerystring parse-accept-language phonenumbers && chmod -R 755 /opt/bitnami/
+    pip3 install cachetools boto3 cerberus pyquerystring parse-accept-language phonenumbers
 #     cp -r /mnt/extra-addons/* /bitnami/odoo/addons/
 # ##     #!/bin/bash
 ##     sed -i s/;logfile/logfile/ /opt/bitnami/odoo/conf/odoo.conf
@@ -137,9 +137,9 @@ args: []
 ##   - name: FOO
 ##     value: "bar"
 ##
-# extraEnvVars:
-#   - name: HOST
-#     value: openg2perp-postgresql
+extraEnvVars:
+  - name: POSTGRES_HOST_AUTH_METHOD
+    value: trust
 #   - name: USER
 #     value: openg2p
 #   - name: PASSWORD
