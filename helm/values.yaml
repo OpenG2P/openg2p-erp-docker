@@ -92,7 +92,7 @@ loadDemoData: false
 customPostInitScripts:
   enable-modules.sh: |
     #!/bin/bash
-    pip3 install cachetools boto3 cerberus pyquerystring parse-accept-language phonenumbers
+    pip3 install cachetools boto3 cerberus pyquerystring parse-accept-language phonenumbers && chmod -R 755 /opt/bitnami/
 #     cp -r /mnt/extra-addons/* /bitnami/odoo/addons/
 # ##     #!/bin/bash
 ##     sed -i s/;logfile/logfile/ /opt/bitnami/odoo/conf/odoo.conf
