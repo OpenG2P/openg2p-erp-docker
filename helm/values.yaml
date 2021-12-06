@@ -65,7 +65,7 @@ image:
   pullSecrets: []
   ## Enable debug mode
   ##
-  debug: false
+  debug: true
 
 ## @section Odoo Configuration parameters
 ## Odoo settings based on environment variables
@@ -138,14 +138,14 @@ args: []
 ##     value: "bar"
 ##
 extraEnvVars:
-  - name: POSTGRES_HOST_AUTH_METHOD
-    value: trust
-#   - name: USER
-#     value: openg2p
-#   - name: PASSWORD
-#     value: openg2p
-#   - name: POSTGRES_DB
-#     value: openg2p
+  # - name: POSTGRES_HOST_AUTH_METHOD
+  #   value: trust
+  - name: POSTGRES_USER
+    value: openg2p
+  - name: POSTGRES_PASSWORD
+    value: openg2p
+  - name: POSTGRES_DB
+    value: openg2p
 ## @param extraEnvVarsCM Name of existing ConfigMap containing extra env vars
 ##
 extraEnvVarsCM: ""
