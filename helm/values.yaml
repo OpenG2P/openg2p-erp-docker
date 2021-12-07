@@ -238,15 +238,18 @@ initContainers:
         mountPath: "/mnt/extra-addons"
 
   - name : install-modules
-    image: odoo
+    image: odoo:12
     command: ["/bin/sh", "-c"]
     args:
       [
-        "apt-get install -y python3-pip && pip3 install --target=d:/usr/lib/python3 cachetools boto3 cerberus pyquerystring parse-accept-language phonenumbers"
+        "apt-get install -y python3-pip && pip3 install cachetools boto3 cerberus pyquerystring parse-accept-language phonenumbers"
       ]
     volumeMounts:
       - name: python-modules
         mountPath: "usr/lib/python3"
+    securityContext:
+      allowPrivilegeEscalation: false
+      runAsUser: 0
 
 ## @param podLabels Extra labels for Odoo pods
 ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
