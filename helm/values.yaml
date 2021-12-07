@@ -192,17 +192,17 @@ hostAliases: []
 extraVolumes:
   - name: odoo-addons
     emptyDir: {}
-  - name: python-modules
-    emptyDir: {}
+  # - name: odoo-data
+  #   emptyDir: {}
 # ## @param extraVolumeMounts Optionally specify extra list of additional volumeMounts for Odoo container(s)
 # ##
 extraVolumeMounts:
   - name: odoo-addons  
     mountPath: "/mnt/extra-addons"
+  - name: odoo-data
+    mountPath: "/var/lib/odoo"
   # - name: python-modules  
   #   mountPath: "usr/lib/python3"
-  # - name: odoo-data
-  #   mountPath: "/var/lib/odoo"
   # - name: odoo-db
   #   mountPath: "/var/lib/postgresql/data"
 ## @param sidecars Add additional sidecar containers to the Odoo pod
