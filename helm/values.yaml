@@ -48,8 +48,8 @@ extraDeploy: []
 ##
 image:
   registry: docker.io
-  repository: odoo
-  tag: 12.0
+  repository: shanidkh/odoo12
+  tag: openg2p
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
   ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -199,8 +199,8 @@ extraVolumes:
 extraVolumeMounts:
   - name: odoo-addons  
     mountPath: "/mnt/extra-addons"
-  - name: python-modules  
-    mountPath: "usr/lib/python3"
+  # - name: python-modules  
+  #   mountPath: "usr/lib/python3"
   # - name: odoo-data
   #   mountPath: "/var/lib/odoo"
   # - name: odoo-db
@@ -225,31 +225,31 @@ sidecars: []
 ##    imagePullPolicy: Always
 ##    command: ['sh', '-c', 'copy addons from git and push to /bitnami/odoo/addons. Should work with extraVolumeMounts and extraVolumes']
 ##
-initContainers: 
-  - name: fetch-openg2p-addons
-    image: busybox
-    command: ["/bin/sh", "-c"]
-    args:
-      [
-        "wget --no-check-certificate -O openg2p-erp-community-addon-master.zip https://github.com/OpenG2P/openg2p-erp-community-addon/archive/master.zip && wget --no-check-certificate -O openg2p-erp-master.zip https://github.com/OpenG2P/openg2p-erp/archive/master.zip && unzip openg2p-erp-community-addon-master.zip -d ./tmp && unzip openg2p-erp-master.zip -d ./tmp && mv ./tmp/*/* /mnt/extra-addons",
-      ]
-    volumeMounts:
-      - name: odoo-addons
-        mountPath: "/mnt/extra-addons"
+# initContainers: 
+#   - name: fetch-openg2p-addons
+#     image: busybox
+#     command: ["/bin/sh", "-c"]
+#     args:
+#       [
+#         "wget --no-check-certificate -O openg2p-erp-community-addon-master.zip https://github.com/OpenG2P/openg2p-erp-community-addon/archive/master.zip && wget --no-check-certificate -O openg2p-erp-master.zip https://github.com/OpenG2P/openg2p-erp/archive/master.zip && unzip openg2p-erp-community-addon-master.zip -d ./tmp && unzip openg2p-erp-master.zip -d ./tmp && mv ./tmp/*/* /mnt/extra-addons",
+#       ]
+#     volumeMounts:
+#       - name: odoo-addons
+#         mountPath: "/mnt/extra-addons"
 
-  - name : install-modules
-    image: odoo:12
-    command: ["/bin/sh", "-c"]
-    args:
-      [
-        "apt-get install -y python3-pip && pip3 install cachetools boto3 cerberus pyquerystring parse-accept-language phonenumbers"
-      ]
-    volumeMounts:
-      - name: python-modules
-        mountPath: "usr/lib/python3"
-    securityContext:
-      allowPrivilegeEscalation: false
-      runAsUser: 0
+#   - name : install-modules
+#     image: odoo:12
+#     command: ["/bin/sh", "-c"]
+#     args:
+#       [
+#         "apt-get install python3-pip && pip3 install cachetools boto3 cerberus pyquerystring parse-accept-language phonenumbers || pip install cachetools boto3 cerberus pyquerystring parse-accept-language phonenumbers"
+#       ]
+#     volumeMounts:
+#       - name: python-modules
+#         mountPath: "usr/lib/python3"
+#     securityContext:
+#       allowPrivilegeEscalation: false
+#       runAsUser: 0
 
 ## @param podLabels Extra labels for Odoo pods
 ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
