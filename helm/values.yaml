@@ -139,7 +139,7 @@ args: []
 ##
 extraEnvVars:
   - name: HOST
-    value: openg2p-erp12-postgresql
+    value: openg2p-postgresql
   - name: USER
     value: openg2p
   - name: PASSWORD
@@ -192,19 +192,21 @@ hostAliases: []
 extraVolumes:
   - name: odoo-addons
     emptyDir: {}
-  # - name: odoo-data
+  - name: odoo-data-master
+    emptyDir: {}
+  # - name: odoo-data-postgres
   #   emptyDir: {}
 # ## @param extraVolumeMounts Optionally specify extra list of additional volumeMounts for Odoo container(s)
 # ##
 extraVolumeMounts:
   - name: odoo-addons  
     mountPath: "/mnt/extra-addons"
-  - name: odoo-data
+  - name: odoo-data-master
     mountPath: "/var/lib/odoo"
+  # - name: odoo-data-postgres
+  #   mountPath: "/var/lib/postgresql/data"
   # - name: python-modules  
   #   mountPath: "usr/lib/python3"
-  # - name: odoo-db
-  #   mountPath: "/var/lib/postgresql/data"
 ## @param sidecars Add additional sidecar containers to the Odoo pod
 ## e.g:
 ## sidecars:
@@ -224,18 +226,21 @@ sidecars: []
 ##    image: your-image
 ##    imagePullPolicy: Always
 ##    command: ['sh', '-c', 'copy addons from git and push to /bitnami/odoo/addons. Should work with extraVolumeMounts and extraVolumes']
-##
-initContainers: 
+##"wget --no-check-certificate -O openg2p-erp-community-addon-master.zip https://github.com/OpenG2P/openg2p-erp-community-addon/archive/master.zip && wget --no-check-certificate -O openg2p-erp-master.zip https://github.com/OpenG2P/openg2p-erp/archive/refs/heads/master.zip && unzip openg2p-erp-community-addon-master.zip -d ./tmp && unzip openg2p-erp-master.zip -d ./tmp && mv ./tmp/*/* /mnt/extra-addons"
+initContainers:
   - name: fetch-openg2p-addons
     image: busybox
     command: ["/bin/sh", "-c"]
     args:
       [
-        "wget --no-check-certificate -O openg2p-erp-community-addon-master.zip https://github.com/OpenG2P/openg2p-erp-community-addon/archive/master.zip && wget --no-check-certificate -O openg2p-erp-master.zip https://github.com/OpenG2P/openg2p-erp/archive/master.zip && unzip openg2p-erp-community-addon-master.zip -d ./tmp && unzip openg2p-erp-master.zip -d ./tmp && mv ./tmp/*/* /mnt/extra-addons",
+        "wget --no-check-certificate -O openg2p-erp-community-addon-master.zip https://github.com/OpenG2P/openg2p-erp-community-addon/archive/master.zip && wget --no-check-certificate -O openg2p-erp-master.zip https://github.com/OpenG2P/openg2p-erp/archive/refs/heads/master.zip && unzip openg2p-erp-community-addon-master.zip -d ./tmp && unzip openg2p-erp-master.zip -d ./tmp && mv ./tmp/*/* /mnt/extra-addons",
       ]
     volumeMounts:
       - name: odoo-addons
         mountPath: "/mnt/extra-addons"
+    securityContext:
+      allowPrivilegeEscalation: false
+      runAsUser: 0
 
 #   - name : install-modules
 #     image: odoo:12
