@@ -48,8 +48,8 @@ extraDeploy: []
 ##
 image:
   registry: docker.io
-  repository: shanidkh/odoo12
-  tag: openg2p
+  repository: bitnami/odoo
+  tag: 12.0
   ## Specify a imagePullPolicy
   ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
   ## ref: https://kubernetes.io/docs/user-guide/images/#pre-pulling-images
@@ -98,7 +98,8 @@ loadDemoData: false
 customPostInitScripts:
   enable-modules.sh: |
     #!/bin/bash
-    pip3 install cachetools boto3 cerberus pyquerystring parse-accept-language phonenumbers
+    pip3 install cachetools==4.2.2 boto3==1.17.84 cerberus==1.3.4 pyquerystring==1.1 parse-accept-language==0.1.2 phonenumbers==8.12.28 zxcvbn==4.4.28 pyotp==2.6.0 cryptography==3.4.7
+    cp -r /mnt/extra-addons/* /opt/bitnami/odoo/addons
 ## SMTP mail delivery configuration
 ## ref: https://github.com/bitnami/bitnami-docker-odoo/#smtp-configuration
 ## @param smtpHost SMTP server host
@@ -193,13 +194,14 @@ extraVolumes:
   - name: odoo-addons
     emptyDir: {}
   - name: odoo-data-master
-    emptyDir: {}
+    persistentVolumeClaim:
+      claimName: openg2p-erp12-pv
   # - name: odoo-data-postgres
   #   emptyDir: {}
 # ## @param extraVolumeMounts Optionally specify extra list of additional volumeMounts for Odoo container(s)
 # ##
 extraVolumeMounts:
-  - name: odoo-addons  
+  - name: odoo-addons 
     mountPath: "/mnt/extra-addons"
   - name: odoo-data-master
     mountPath: "/var/lib/odoo"
