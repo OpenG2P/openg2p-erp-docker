@@ -100,6 +100,7 @@ customPostInitScripts:
     #!/bin/bash
     pip3 install cachetools==4.2.2 boto3==1.17.84 cerberus==1.3.4 pyquerystring==1.1 parse-accept-language==0.1.2 phonenumbers==8.12.28 zxcvbn==4.4.28 pyotp==2.6.0 cryptography==3.4.7
     cp -r /mnt/extra-addons/* /opt/bitnami/odoo/addons
+    cp -r /opt/bitnami/python/lib/python3.8/site-packages/* /opt/bitnami/python/lib/python3.8/
 ## SMTP mail delivery configuration
 ## ref: https://github.com/bitnami/bitnami-docker-odoo/#smtp-configuration
 ## @param smtpHost SMTP server host
@@ -142,11 +143,11 @@ extraEnvVars:
   - name: HOST
     value: openg2p-postgresql
   - name: USER
-    value: openg2p
+    value: postgres
   - name: PASSWORD
-    value: openg2p
+    value: postgres
   - name: POSTGRES_DB
-    value: openg2p
+    value: postgres
 ## @param extraEnvVarsCM Name of existing ConfigMap containing extra env vars
 ##
 extraEnvVarsCM: ""
@@ -677,29 +678,29 @@ postgresql:
 externalDatabase:
   ## @param externalDatabase.host External Database server host
   ##
-  host: "openg2p-erp12"
+  host: ""
   ## @param externalDatabase.port External Database server port
   ##
   port: 5432
   ## @param externalDatabase.user External Database username
   ##
-  user: openg2p
+  user: bn_odoo
   ## @param externalDatabase.password External Database user password
   ##
-  password: "openg2p"
+  password: ""
   ## @param externalDatabase.database External Database database name
   ##
-  database: openg2p
+  database: bitnami_odoo
   ## @param externalDatabase.create Enable PostgreSQL user and database creation (when using an external db)
   ## If true it will add POSTGRESQL_CLIENT_* env vars to the deployment which will create the PostgreSQL user & database using the provided admin credentials
   ##
   create: true
   ## @param externalDatabase.postgresqlPostgresUser External Database admin username
   ##
-  postgresqlPostgresUser: "openg2p"
+  postgresqlPostgresUser: "postgres"
   ## @param externalDatabase.postgresqlPostgresPassword External Database admin password
   ##
-  postgresqlPostgresPassword: "openg2p"
+  postgresqlPostgresPassword: ""
   ## @param externalDatabase.existingSecret Name of existing secret object
   ## The secret should contain the following keys:
   ## postgresql-postgres-password (for root user)
