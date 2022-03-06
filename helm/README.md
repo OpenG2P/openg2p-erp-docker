@@ -12,7 +12,9 @@
 
 
 4. Deploy odoo and postgresql pod using :
+ 
  `helm repo add bitnami https://charts.bitnami.com/bitnami`
+ 
  `helm install openg2p -f values.yaml bitnami/odoo`
 
 
@@ -29,6 +31,7 @@
 8. After logging in to postgres-pod,grant superuser access to openg2p user using:
 
 `ALTER ROLE bn_odoo SUPERUSER;`
+
 `CREATE EXTENSION pg_trgm;`
 
 9.  Access odoo by port forwarding to localhost:8069.
