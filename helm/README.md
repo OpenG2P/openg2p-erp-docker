@@ -20,28 +20,24 @@
 
 5. Using k9s enter into openg2p-postgresql by using `s` key to enter shell.
 
+6. Login to postgres user using:
 
-6. Find the root user password by listing all environment variables in the postgresql pod. (env)
-("POSTGRES_POSTGRES_PASSWORD")
+`PGPASSWORD=$POSTGRES_POSTGRES_PASSWORD psql -h localhost -d bitnami_odoo -U postgres -p 5432`
 
-7. Login to postgres user using:
-
-`psql -h localhost -d bitnami_odoo -U postgres -p 5432`
-
-8. After logging in to postgres-pod,grant superuser access to openg2p user using:
+7. After logging in to postgres-pod,grant superuser access to openg2p user using:
 
 `ALTER ROLE bn_odoo SUPERUSER;`
 
 `CREATE EXTENSION pg_trgm;`
 
-9.  Access odoo by port forwarding to localhost:8069.
+8.  Access odoo by port forwarding to localhost:8069.
 (Port forward openg2p-odoo pod using `Shift+F` then enter the port. Access it in your browser with localhost:8069 which is the default port)
 
-10. Activate developer mode which is in the settings menu and update App list(top left corner) by going to apps menu and refresh page.
+9. Activate developer mode which is in the settings menu and update App list(top left corner) by going to apps menu and refresh page.
 
-11. Search for openg2p modules in apps menu.
+10. Search for openg2p modules in apps menu.
 
-12. Install all openg2p addons from the apps menu.
+11. Install all openg2p addons from the apps menu.
 
 ## Steps to install ODK Central and Collect
 
