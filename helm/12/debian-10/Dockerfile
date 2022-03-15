@@ -35,6 +35,8 @@ RUN apt-get update && apt-get install -y \
 RUN pip install cachetools==3.1.1 boto3==1.17.84 cerberus==1.3.4 pyquerystring==1.1 parse-accept-language==0.1.2 phonenumbers==8.12.28 zxcvbn==4.4.28 pyotp==2.6.0 cryptography==3.3.2 pandas==0.24.2 python-dotenv==0.18.0 numpy==1.16.6 kafka-python==2.0.2 dicttoxml==1.7.4
 # RUN wget --no-check-certificate -O openg2p-erp-community-addon-master.zip https://github.com/OpenG2P/openg2p-erp-community-addon/archive/master.zip && wget --no-check-certificate -O openg2p-erp-master.zip https://github.com/OpenG2P/openg2p-erp/archive/refs/heads/master.zip && unzip openg2p-erp-community-addon-master.zip -d ./odoo-addons && unzip openg2p-erp-master.zip -d ./odoo-addons && mv -f ./odoo-addons/*/* /opt/bitnami/odoo/addons 
 RUN cp -r /opt/bitnami/python/lib/python3.8/site-packages/* /opt/bitnami/python/lib/python3.8
+COPY ./openg2p-erp /opt/bitnami/odoo/addons
+COPY ./openg2p-erp-community-addon /opt/bitnami/odoo/addons
 
 ENV BITNAMI_APP_NAME="odoo" \
     BITNAMI_IMAGE_VERSION="12.0.20210915-debian-10-r40" \
