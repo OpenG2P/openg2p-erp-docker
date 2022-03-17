@@ -1,7 +1,7 @@
 image:
   registry: docker.io
   repository: shanidkh/bitnami-odoo
-  tag: 12
+  tag: odoo12
 
   pullPolicy: IfNotPresent
   pullSecrets: []
@@ -42,33 +42,31 @@ serviceAccount:
   create: true
   name: ""
 
-# extraVolumes:
-#   - name: odoo-addons
-#     emptyDir: {}
-#   - name: odoo-data-master
-#     persistentVolumeClaim:
-#       claimName: openg2p-erp12-pv
+extraVolumes:
+  - name: odoo-addons
+    emptyDir: {}
+  - name: odoo-data-master
+    persistentVolumeClaim:
+      claimName: openg2p-erp12-pv
 
-# extraVolumeMounts:
-#   - name: odoo-addons 
-#     mountPath: "/mnt/extra-addons"
-#   - name: odoo-data-master
-#     mountPath: "/var/lib/odoo"
+extraVolumeMounts:
+  - name: odoo-addons 
+    mountPath: "/mnt/extra-addons"
+  - name: odoo-data-master
+    mountPath: "/var/lib/odoo"
 
-# initContainers:
-#   - name: fetch-openg2p-addons
-#     image: busybox
-#     command: ["/bin/sh", "-c"]
-#     args:
-#       [
-#         "wget --no-check-certificate -O openg2p-erp-community-addon-master.zip https://github.com/OpenG2P/openg2p-erp-community-addon/archive/master.zip && wget --no-check-certificate -O openg2p-erp-master.zip https://github.com/OpenG2P/openg2p-erp/archive/refs/heads/master.zip && unzip openg2p-erp-community-addon-master.zip -d ./tmp && unzip openg2p-erp-master.zip -d ./tmp && mv ./tmp/*/* /mnt/extra-addons",
-#       ]
-#     volumeMounts:
-#       - name: odoo-addons 
-#         mountPath: "/mnt/extra-addons"
-#     securityContext:
-#       allowPrivilegeEscalation: false
-      # runAsUser: 0
+initContainers:
+  - name: fetch-openg2p-addons
+    image: busybox
+    command: ["/bin/sh", "-c"]
+    args:
+      ["echo Init container "]
+    volumeMounts:
+      - name: odoo-addons 
+        mountPath: "/mnt/extra-addons"
+    securityContext:
+      allowPrivilegeEscalation: false
+      runAsUser: 0
 
 podAntiAffinityPreset: soft
 
