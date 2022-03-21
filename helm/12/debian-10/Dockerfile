@@ -31,12 +31,11 @@ RUN apt-get update && apt-get install -y \
     libbz2-dev \
     liblzma-dev \
     autoconf \
-    wget \
     unzip
 RUN apt install --fix-broken
 RUN apt-get install build-essential libssl-dev libffi-dev python3-dev cargo -y
 RUN pip3 install cryptography --no-binary cryptography
-RUN pip3 install --target=/opt/bitnami/python/lib/python3.8/site-packages/ wheel cachetools==4.2.2 boto3==1.17.84 cerberus==1.3.4 pyquerystring==1.1 parse-accept-language==0.1.2 phonenumbers==8.12.28 zxcvbn==4.4.28 pyotp==2.6.0 cryptography==3.3.2 pandas==1.3.2 python-dotenv==0.19.0 numpy==1.21.2 kafka-python==2.0.2 dicttoxml==1.7.4
+RUN pip3 install --target=/opt/bitnami/python/lib/python3.8/site-packages/ cachetools==4.2.2 boto3==1.17.84 cerberus==1.3.4 pyquerystring==1.1 parse-accept-language==0.1.2 phonenumbers==8.12.28 zxcvbn==4.4.28 pyotp==2.6.0 cryptography==3.3.2 pandas==1.3.2 python-dotenv==0.19.0 numpy==1.21.2 kafka-python==2.0.2 dicttoxml==1.7.4
 # RUN wget --no-check-certificate -O openg2p-erp-community-addon-master.zip https://github.com/OpenG2P/openg2p-erp-community-addon/archive/master.zip && wget --no-check-certificate -O openg2p-erp-master.zip https://github.com/OpenG2P/openg2p-erp/archive/refs/heads/master.zip && unzip openg2p-erp-community-addon-master.zip -d ./odoo-addons && unzip openg2p-erp-master.zip -d ./odoo-addons && mv -f ./odoo-addons/*/* /opt/bitnami/odoo/addons 
 # RUN cp -r /opt/bitnami/python/lib/python3.8/site-packages/* /opt/bitnami/python/lib/python3.8
 COPY ./openg2p-erp /opt/bitnami/odoo/addons

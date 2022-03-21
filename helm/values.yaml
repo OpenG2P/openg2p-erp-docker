@@ -1,7 +1,7 @@
 image:
   registry: docker.io
   repository: shanidkh/bitnami-odoo
-  tag: odoo12
+  tag: odoo
 
   pullPolicy: IfNotPresent
   pullSecrets: []
