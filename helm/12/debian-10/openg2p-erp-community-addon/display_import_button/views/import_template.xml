@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<odoo>
-  <template id="assets_backend" name="tools assets" inherit_id="web.assets_backend">
-    <xpath expr=".">
-      <script type="application/javascript" src="/display_import_button/static/src/js/tools.js"/>
-      <script type="application/javascript" src="/display_import_button/static/src/js/kanban_controller.js"/>
-    </xpath>
-  </template>
-</odoo>
