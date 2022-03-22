@@ -1,7 +1,7 @@
 image:
   registry: docker.io
-  repository: shanidkh/bitnami-odoo
-  tag: odoo
+  repository: shanidkh/odoo
+  tag: 12
 
   pullPolicy: IfNotPresent
   pullSecrets: []
@@ -22,15 +22,15 @@ loadDemoData: false
 
 allowEmptyPassword: false
 
-# extraEnvVars:
-#   - name: HOST
-#     value: openg2p-postgresql
-#   - name: USER
-#     value: postgres
-#   - name: PASSWORD
-#     value: postgres
-#   - name: POSTGRES_DB
-#     value: postgres
+extraEnvVars:
+  - name: HOST
+    value: openg2p-erp-postgresql
+  - name: USER
+    value: openg2p
+  - name: PASSWORD
+    value: openg2p
+  - name: POSTGRES_DB
+    value: openg2p
 
 replicaCount: 1
 
@@ -90,18 +90,18 @@ containerSecurityContext:
 livenessProbe:
   enabled: true
   path: /
-  initialDelaySeconds: 2000
-  periodSeconds: 30
-  timeoutSeconds: 5
+  initialDelaySeconds: 5000
+  periodSeconds: 50
+  timeoutSeconds: 10
   failureThreshold: 6
   successThreshold: 1
 
 readinessProbe:
   enabled: true
   path: /
-  initialDelaySeconds: 30
-  periodSeconds: 10
-  timeoutSeconds: 5
+  initialDelaySeconds: 100
+  periodSeconds: 30
+  timeoutSeconds: 15
   failureThreshold: 6
   successThreshold: 1
 
