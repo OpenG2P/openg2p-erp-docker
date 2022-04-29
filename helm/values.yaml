@@ -219,7 +219,7 @@ containerSecurityContext:
 ## @param livenessProbe.successThreshold Success threshold for livenessProbe
 ##
 livenessProbe:
-  enabled: true
+  enabled: false
   path: /
   initialDelaySeconds: 600
   periodSeconds: 30
@@ -361,12 +361,18 @@ extraVolumes:
   - name: odoo-data-master
     persistentVolumeClaim:
       claimName: openg2p-erp12-pv
+  # - name: postinit-conf
+  #   configMap:
+  #     name: openg2p-postinit-cm
 
 extraVolumeMounts:
   - name: odoo-addons 
     mountPath: "/mnt/extra-addons"
   - name: odoo-data-master
     mountPath: "/var/lib/odoo"
+  # - name: postinit-conf
+  #   mountPath: "/post-init.sh"
+  #   subPath: "post-init.sh"
 ## @param sidecars Add additional sidecar containers to the Odoo pod
 ## e.g:
 ## sidecars:
@@ -393,7 +399,7 @@ initContainers:
     command: ["/bin/sh", "-c"]
     args:
       [
-        "wget --no-check-certificate -O openg2p-erp-community-addon-master.zip https://github.com/OpenG2P/openg2p-erp-community-addon/archive/master.zip && wget --no-check-certificate -O openg2p-erp-master.zip https://github.com/OpenG2P/openg2p-erp/archive/refs/heads/master.zip && unzip openg2p-erp-community-addon-master.zip -d ./tmp && unzip openg2p-erp-master.zip -d ./tmp && mv ./tmp/*/* /mnt/extra-addons",
+        "wget --no-check-certificate -O openg2p-erp-community-addon-master.zip https://github.com/OpenG2P/openg2p-erp-community-addon/archive/refs/heads/master.zip && wget --no-check-certificate -O openg2p-erp-master.zip https://github.com/truthfool/openg2p-erp/archive/refs/heads/master.zip && unzip openg2p-erp-community-addon-master.zip -d ./tmp && unzip openg2p-erp-master.zip -d ./tmp && cp -rf ./tmp/*/* /mnt/extra-addons",
       ]
     volumeMounts:
       - name: odoo-addons
@@ -552,7 +558,7 @@ ingress:
 persistence:
   ## @param persistence.enabled Enable persistence using Persistent Volume Claims
   ##
-  enabled: true
+  enabled: false
   ## @param persistence.resourcePolicy Setting it to "keep" to avoid removing PVCs during a helm delete operation. Leaving it empty will delete PVCs after the chart deleted
   ##
   resourcePolicy: ""
@@ -688,18 +694,18 @@ postgresql:
 ## @param externalDatabase.existingSecretPasswordKey Name of an existing secret key containing the non-root credentials
 ## @param externalDatabase.existingSecretPostgresPasswordKey Name of an existing secret key containing the admin credentials
 ##
-# externalDatabase:
-#   host: ""
-#   port: 5432
-#   user: bn_odoo
-#   password: ""
-#   database: bitnami_odoo
-#   create: true
-#   postgresqlPostgresUser: "postgres"
-#   postgresqlPostgresPassword: ""
-#   existingSecret: ""
-#   existingSecretPasswordKey: ""
-#   existingSecretPostgresPasswordKey: ""
+externalDatabase:
+  host: ""
+  port: 5432
+  user: bn_odoo
+  password: ""
+  database: bitnami_odoo
+  create: true
+  postgresqlPostgresUser: "postgres"
+  postgresqlPostgresPassword: ""
+  existingSecret: ""
+  existingSecretPasswordKey: ""
+  existingSecretPostgresPasswordKey: ""
 
 ## @section NetworkPolicy parameters
 ##
