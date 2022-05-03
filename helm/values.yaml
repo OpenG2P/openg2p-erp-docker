@@ -162,7 +162,11 @@ args: []
 ##   - name: FOO
 ##     value: "bar"
 ##
-extraEnvVars: []
+extraEnvVars:
+- name: DEMO_AUTHENTICATE_URL
+  value: "http://openg2p-mosip-auth-mediator/demoAuth"
+- name: SHOULD_DEMO_AUTH
+  value: "true"
 ## @param extraEnvVarsCM Name of existing ConfigMap containing extra env vars
 ##
 extraEnvVarsCM: ""
