@@ -1,7 +1,7 @@
 image:
   registry: docker.io
   repository: shanidkh/bitnami-odoo
-  tag: openg2p-erp
+  tag: openg2p-custom
   # repository: bitnami/odoo
   # tag: 12.0.20210915-debian-10-r40
   pullPolicy: Always
@@ -41,11 +41,6 @@ skipInstall: true
 customPostInitScripts:
   install-openg2p-modules.sh: |
     #!/bin/bash
-    rm -rf /tmp/openg2p-erp*
-    curl -L -o /tmp/openg2p-erp-community-addon.zip $OPENG2P_CA_REPO/archive/$OPENG2P_CA_BRANCH.zip &&
-    curl -L -o /tmp/openg2p-erp.zip $OPENG2P_ERP_REPO/archive/$OPENG2P_ERP_BRANCH.zip &&
-    unzip /tmp/openg2p-erp-community-addon.zip -d /tmp &&
-    unzip /tmp/openg2p-erp.zip -d /tmp &&
     cp -rf /tmp/openg2p-erp*/* /bitnami/odoo/addons
     if [[ ! -f "/bitnami/odoo/.openg2p_modules_initialized" ]]; then
       chown -R odoo:root /bitnami/odoo/
@@ -86,20 +81,20 @@ args: []
 ##     value: "bar"
 ##
 extraEnvVars:
-- name: OPENG2P_ERP_REPO
-  value: "https://github.com/OpenG2P/openg2p-erp"
-- name: OPENG2P_CA_REPO
-  value: "https://github.com/OpenG2P/openg2p-erp-community-addon"
-- name: OPENG2P_ERP_BRANCH
-  value: "master"
-- name: OPENG2P_CA_BRANCH
-  value: "master"
 - name: ODOO_SKIP_MODULES_UPDATE
   value: "true"
 - name: SHOULD_DEMO_AUTH
   value: "false"
 - name: DEMO_AUTHENTICATE_URL
   value: "http://openg2p-mosip-mediator/demoAuth"
+# - name: OPENG2P_ERP_REPO
+#   value: "https://github.com/OpenG2P/openg2p-erp"
+# - name: OPENG2P_CA_REPO
+#   value: "https://github.com/OpenG2P/openg2p-erp-community-addon"
+# - name: OPENG2P_ERP_BRANCH
+#   value: "master"
+# - name: OPENG2P_CA_BRANCH
+#   value: "master"
 
 ## @param replicaCount Number of Odoo replicas to deploy
 ## NOTE: ReadWriteMany PVC(s) are required if replicaCount > 1
@@ -189,5 +184,5 @@ postgresql:
     create_trgm_extension.sh: |
       #!/bin/bash
       PGPASSWORD=$POSTGRES_POSTGRES_PASSWORD psql -U postgres -d $POSTGRES_DB -c "alter role $POSTGRES_USER superuser;"
-      PGPASSWORD=$POSTGRES_POSTGRES_PASSWORD psql -U postgres -d $POSTGRES_DB -c "create extension pg_trgm;"
+      PGPASSWORD=$POSTGRES_PASSWORD psql -U $POSTGRES_USER -d $POSTGRES_DB -c "create extension pg_trgm;"
       
