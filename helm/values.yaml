@@ -1,6 +1,7 @@
 image:
   # registry: docker.io
-  repository: us.icr.io/phee-ns/openg2p-erp
+  registry: us.icr.io
+  repository: phee-ns/openg2p-erp
   tag: latest
   #tag: openg2p-custom
   # repository: bitnami/odoo
