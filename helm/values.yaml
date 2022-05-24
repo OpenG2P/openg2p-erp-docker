@@ -173,7 +173,7 @@ persistence:
 postgresql:
   enabled: true
   postgresqlUsername: "openg2p"
-  postgresqlPassword: ""
+  postgresqlPassword: "password123"
   postgresqlDatabase: openg2p
   existingSecret: ""
   persistence:
@@ -185,4 +185,8 @@ postgresql:
       #!/bin/bash
       PGPASSWORD=$POSTGRES_POSTGRES_PASSWORD psql -U postgres -d $POSTGRES_DB -c "alter role $POSTGRES_USER superuser;"
       PGPASSWORD=$POSTGRES_PASSWORD psql -U $POSTGRES_USER -d $POSTGRES_DB -c "create extension pg_trgm;"
+      
+global:
+   postgresql:
+      postgresqlPassword: "admin123"
       
