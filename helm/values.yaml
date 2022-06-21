@@ -1,49 +1,22 @@
 image:
-  # registry: docker.io
   registry: us.icr.io
   repository: phee-ns/openg2p-erp
   tag: latest
-  #tag: openg2p-custom
-  # repository: bitnami/odoo
-  # tag: 12.0.20210915-debian-10-r40
   pullPolicy: Always
-  ## Optionally specify an array of imagePullSecrets.
-  ## Secrets must be manually created in the namespace.
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-  ##
-  # pullSecrets:
-  #   - myRegistryKeySecretName
+  debug: false
 
-## @param odooEmail Odoo user email
-## ref: https://github.com/bitnami/bitnami-docker-odoo#configuration
-##
 odooEmail: admin
-## @param odooPassword Odoo user password
-## Defaults to a random 10-character alphanumeric string if not set
-## ref: https://github.com/bitnami/bitnami-docker-odoo#configuration
-##
 odooPassword: "admin"
-## @param loadDemoData Whether to load demo data for all modules during initialization
-## ref: https://github.com/bitnami/bitnami-docker-odoo#configuration
-##
-loadDemoData: false
-skipInstall: true
+odooSkipInstall: true
+loadDemoData: true
 
-## @param customPostInitScripts Custom post-init.d user scripts
-## ref: https://github.com/bitnami/bitnami-docker-odoo/tree/master/14.0/debian-10/rootfs/post-init.d
-## NOTE: supported formats are `.sh`, `.sql` or `.php`
-## NOTE: scripts are exclusively executed during the 1st boot of the container
-## e.g:
-## customPostInitScripts:
-##   enable-logs.sh: |
-##     #!/bin/bash
-##     sed -i s/;logfile/logfile/ /opt/bitnami/odoo/conf/odoo.conf
-##     ...
-##
+
 customPostInitScripts:
   install-openg2p-modules.sh: |
     #!/bin/bash
     cp -rf /tmp/openg2p-erp*/* /bitnami/odoo/addons
+    TO_REPLACE=$(grep -i limit_time_real /opt/bitnami/odoo/conf/odoo.conf); sed -i "s/$TO_REPLACE/limit_time_real = $LIMIT_TIME_REAL/g" /opt/bitnami/odoo/conf/odoo.conf
+    TO_REPLACE=$(grep -i list_db /opt/bitnami/odoo/conf/odoo.conf); sed -i "s/$TO_REPLACE/list_db = False/g" /opt/bitnami/odoo/conf/odoo.conf
     if [[ ! -f "/bitnami/odoo/.openg2p_modules_initialized" ]]; then
       chown -R odoo:root /bitnami/odoo/
       . /opt/bitnami/odoo/venv/bin/activate &&
@@ -55,33 +28,16 @@ customPostInitScripts:
       chown -R odoo:root /bitnami/odoo/
       touch /bitnami/odoo/.openg2p_modules_initialized
     fi
+existingSecret: ""
 
-## @param initContainers Add additional init containers to the Odoo pods
-## ref: https://kubernetes.io/docs/concepts/workloads/pods/init-containers/
-## e.g:
-## initContainers:
-##  - name: your-image-name
-##    image: your-image
-##    imagePullPolicy: Always
-##    command: ['sh', '-c', 'copy addons from git and push to /bitnami/odoo/addons. Should work with extraVolumeMounts and extraVolumes']
-##
-initContainers: []
+smtpExistingSecret: ""
 
-## @param allowEmptyPassword Allow the container to be started with blank passwords
-##
 allowEmptyPassword: false
-## @param command Override default container command (useful when using custom images)
-##
+
 command: []
-## @param args Override default container args (useful when using custom images)
-##
+
 args: []
-## @param extraEnvVars Array with extra environment variables to add to the Odoo container
-## e.g:
-## extraEnvVars:
-##   - name: FOO
-##     value: "bar"
-##
+
 extraEnvVars:
 - name: ODOO_SKIP_MODULES_UPDATE
   value: "true"
@@ -89,38 +45,14 @@ extraEnvVars:
   value: "false"
 - name: DEMO_AUTHENTICATE_URL
   value: "http://openg2p-mosip-mediator/demoAuth"
-# - name: OPENG2P_ERP_REPO
-#   value: "https://github.com/OpenG2P/openg2p-erp"
-# - name: OPENG2P_CA_REPO
-#   value: "https://github.com/OpenG2P/openg2p-erp-community-addon"
-# - name: OPENG2P_ERP_BRANCH
-#   value: "master"
-# - name: OPENG2P_CA_BRANCH
-#   value: "master"
+- name: LIMIT_TIME_REAL
+  value: "10000"
 
-## @param replicaCount Number of Odoo replicas to deploy
-## NOTE: ReadWriteMany PVC(s) are required if replicaCount > 1
-##
+
 replicaCount: 1
 
-## @param serviceAccount.create Specifies whether a ServiceAccount should be created
-## @param serviceAccount.name The name of the ServiceAccount to create
-##
-serviceAccount:
-  create: true
-  name: ""
-
-## @param extraVolumes Optionally specify extra list of additional volumes for Odoo pods
-##
-extraVolumes: []
-# - name: odoo-addons
-#   emptyDir: {}
-
-## @param extraVolumeMounts Optionally specify extra list of additional volumeMounts for Odoo container(s)
-##
-extraVolumeMounts: []
-# - name: odoo-addons 
-#   mountPath: "/mnt/extra-addons"
+containerPorts:
+  http: 8069
 
 resources:
   limits: {}
@@ -128,69 +60,154 @@ resources:
     memory: 512Mi
     cpu: 300m
 
+podSecurityContext:
+  enabled: false
+  fsGroup: 1001
+
+containerSecurityContext:
+  enabled: false
+  runAsUser: 1001
+
 livenessProbe:
   enabled: false
+  path: /
   initialDelaySeconds: 600
   periodSeconds: 30
   timeoutSeconds: 5
   failureThreshold: 6
   successThreshold: 1
+
+readinessProbe:
+  enabled: false
+
 readinessProbe:
   enabled: true
+  path: /
   initialDelaySeconds: 30
   periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 6
   successThreshold: 1
+
 startupProbe:
   enabled: false
-  path: /
+  path: 
   initialDelaySeconds: 300
   periodSeconds: 10
   timeoutSeconds: 5
   failureThreshold: 6
   successThreshold: 1
 
+podAntiAffinityPreset: soft
+
+updateStrategy:
+  type: RollingUpdate
+  rollingUpdate: {}
+
+extraVolumes: []
+
+extraVolumeMounts: []
+
+sidecars: []
+
+initContainers: []
+
 service:
   type: ClusterIP
 
 ingress:
   enabled: false
-  selfSigned: false
+  ingressClassName: ""
   pathType: ImplementationSpecific
+  apiVersion: ""
   hostname: odoo.local
   path: /
+  annotations: {}
   tls: false
+  selfSigned: false
   extraHosts: []
   extraPaths: []
   extraTls: []
   secrets: []
+  extraRules: []
 
 persistence:
   enabled: true
   accessModes:
     - ReadWriteOnce
+  accessMode: ReadWriteOnce
   size: 10Gi
+
+volumePermissions:
+  enabled: false
+  resources:
+    limits: {}
+    requests: {}
+  containerSecurityContext:
+    enabled: true
+    runAsUser: 0
+
+serviceAccount:
+  create: true
+  name: ""
+  automountServiceAccountToken: false
+  annotations: {}
+
+pdb:
+  create: false
+  minAvailable: 1
+  maxUnavailable: ""
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 11
+  targetCPU: 50
+  targetMemory: 50
 
 postgresql:
   enabled: true
-  postgresqlUsername: "openg2p"
-  postgresqlPassword: "password123"
-  postgresqlPostgresPassword: "password456"
-  postgresqlDatabase: openg2p
-  persistence:
-    enabled: true
-    accessMode: ReadWriteOnce
-    size: 10Gi
-  initdbScripts:
-    create_trgm_extension.sh: |
-      #!/bin/bash
-      PGPASSWORD=$POSTGRES_POSTGRES_PASSWORD psql -U postgres -d $POSTGRES_DB -c "alter role $POSTGRES_USER superuser;"
-      PGPASSWORD=$POSTGRES_PASSWORD psql -U $POSTGRES_USER -d $POSTGRES_DB -c "create extension pg_trgm;"
-      
-global:
-  postgresql:
-    postgresqlPassword: "admin123"
-      
+  auth:
+    username: openg2p
+    password: "openg2p"
+    database: openg2p
+    existingSecret: ""
+  architecture: standalone
+  primary:
+    initdb:
+      scripts:
+        create_trgm_extension.sh: |
+          #!/bin/bash
+          PGPASSWORD=$POSTGRES_POSTGRES_PASSWORD psql -U postgres -d $POSTGRES_DB -c "alter role $POSTGRES_USER superuser;"
+          PGPASSWORD=$POSTGRES_PASSWORD psql -U $POSTGRES_USER -d $POSTGRES_DB -c "create extension pg_trgm;"
 
-      
+externalDatabase:
+  host: ""
+  port: 5432
+  user: bn_odoo
+  password: ""
+  database: bitnami_odoo
+  create: true
+  postgresqlPostgresUser: "postgres"
+  postgresqlPostgresPassword: ""
+  existingSecret: ""
+  existingSecretPasswordKey: ""
+  existingSecretPostgresPasswordKey: ""
+
+networkPolicy:
+  enabled: false
+  ingress:
+    enabled: false
+    podSelector: {}
+    namespaceSelector: {}
+  ingressRules:
+    backendOnlyAccessibleByFrontend: false
+    customBackendSelector: {}
+    accessOnlyFrom:
+      enabled: false
+      namespaceSelector: {}
+      podSelector: {}
+    customRules: {}
+  egressRules:
+    denyConnectionsToExternal: false
+    customRules: {}
