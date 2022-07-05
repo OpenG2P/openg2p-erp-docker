@@ -3,6 +3,8 @@ image:
   repository: phee-ns/openg2p-erp
   tag: latest
   pullPolicy: Always
+  pullSecrets:
+    - all-icr-io
   debug: false
 
 odooEmail: admin
@@ -80,9 +82,9 @@ livenessProbe:
 readinessProbe:
   enabled: false
 
-readinessProbe:
-  enabled: true
-  path: /
+customReadinessProbe:
+  tcpSocket:
+    port: 8069
   initialDelaySeconds: 30
   periodSeconds: 10
   timeoutSeconds: 5
