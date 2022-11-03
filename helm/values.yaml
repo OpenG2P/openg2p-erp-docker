@@ -1,10 +1,10 @@
 image:
-  registry: us.icr.io
-  repository: phee-ns/openg2p-erp
-  tag: latest
+  registry: https://419830066942.dkr.ecr.ap-south-1.amazonaws.com
+  repository: openg2p-erp
+  tag: v0.7.0
   pullPolicy: Always
   pullSecrets:
-    - all-icr-io
+    - dockersecret
   debug: false
 
 odooEmail: admin
