@@ -15,7 +15,7 @@
     ```
     helm repo add bitnami https://charts.bitnami.com/bitnami
     helm repo update bitnami
-    helm -n <NS> install openg2p-erp bitnami/odoo --version 21.4.5 -f values.yaml
+    helm upgrade --install openg2p-erp bitnami/odoo --version 21.4.5 -f helm/values.yaml --create-namespace --namespace openg2p
     ```
 - Once the installation finishes (initial installation will take sometime), Login in to ERP at the specified hostname. Required Modules should already be installed.
 
