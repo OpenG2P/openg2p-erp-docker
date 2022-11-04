@@ -1,7 +1,7 @@
 image:
   registry: 419830066942.dkr.ecr.ap-south-1.amazonaws.com
   repository: openg2p-erp
-  tag: v0.7.0
+  tag: latest
   pullPolicy: Always
   pullSecrets:
     - dockersecret
