@@ -12,7 +12,6 @@ odooPassword: "admin"
 odooSkipInstall: true
 loadDemoData: true
 
-
 customPostInitScripts:
   install-openg2p-modules.sh: |
     #!/bin/bash
@@ -30,6 +29,7 @@ customPostInitScripts:
       chown -R odoo:root /bitnami/odoo/
       touch /bitnami/odoo/.openg2p_modules_initialized
     fi
+
 existingSecret: ""
 
 smtpExistingSecret: ""
@@ -49,6 +49,26 @@ extraEnvVars:
   value: "http://openg2p-mosip-mediator/demoAuth"
 - name: LIMIT_TIME_REAL
   value: "10000"
+- name: access_key
+  value: ""
+- name: secret_access_key
+  value: ""
+- name: username
+  value: ""
+- name: password
+  value: ""
+- name: grant_type
+  value: ""
+- name: tenantName
+  value: ""
+- name: bulkTransferUrl
+  value: ""
+- name: bucketName
+  value: "paymenthub-ee-dev"
+- name: authUrl
+  value: ""
+- name: bulkTransferStatusUrl
+  value: ""
 
 
 replicaCount: 1
