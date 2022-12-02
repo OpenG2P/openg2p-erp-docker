@@ -18,6 +18,7 @@ customPostInitScripts:
     cp -rf /tmp/openg2p-erp*/* /bitnami/odoo/addons
     TO_REPLACE=$(grep -i limit_time_real /opt/bitnami/odoo/conf/odoo.conf); sed -i "s/$TO_REPLACE/limit_time_real = $LIMIT_TIME_REAL/g" /opt/bitnami/odoo/conf/odoo.conf
     TO_REPLACE=$(grep -i list_db /opt/bitnami/odoo/conf/odoo.conf); sed -i "s/$TO_REPLACE/list_db = False/g" /opt/bitnami/odoo/conf/odoo.conf
+    TO_REPLACE=$(grep -i without_demo /opt/bitnami/odoo/conf/odoo.conf); sed -i "s/$TO_REPLACE/without_demo = False/g" /opt/bitnami/odoo/conf/odoo.conf
     if [[ ! -f "/bitnami/odoo/.openg2p_modules_initialized" ]]; then
       chown -R odoo:root /bitnami/odoo/
       . /opt/bitnami/odoo/venv/bin/activate &&
