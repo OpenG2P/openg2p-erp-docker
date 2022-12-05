@@ -24,7 +24,7 @@ customPostInitScripts:
       . /opt/bitnami/odoo/venv/bin/activate &&
       /opt/bitnami/odoo/bin/odoo \
           --config /opt/bitnami/odoo/conf/odoo.conf \
-          -i base,odk-connector,openg2p_package --without-demo=all \
+          -i base,odk-connector,openg2p_package \
           --stop-after-init &&
       deactivate
       chown -R odoo:root /bitnami/odoo/
