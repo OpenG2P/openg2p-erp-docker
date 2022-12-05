@@ -70,7 +70,8 @@ extraEnvVars:
   value: ""
 - name: bulkTransferStatusUrl
   value: ""
-
+- name: "authHeader"
+  value: ""
 
 replicaCount: 1
 
