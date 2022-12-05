@@ -12,24 +12,25 @@ odooPassword: "admin"
 odooSkipInstall: true
 loadDemoData: true
 
-
 customPostInitScripts:
   install-openg2p-modules.sh: |
     #!/bin/bash
     cp -rf /tmp/openg2p-erp*/* /bitnami/odoo/addons
     TO_REPLACE=$(grep -i limit_time_real /opt/bitnami/odoo/conf/odoo.conf); sed -i "s/$TO_REPLACE/limit_time_real = $LIMIT_TIME_REAL/g" /opt/bitnami/odoo/conf/odoo.conf
     TO_REPLACE=$(grep -i list_db /opt/bitnami/odoo/conf/odoo.conf); sed -i "s/$TO_REPLACE/list_db = False/g" /opt/bitnami/odoo/conf/odoo.conf
+    TO_REPLACE=$(grep -i without_demo /opt/bitnami/odoo/conf/odoo.conf); sed -i "s/$TO_REPLACE/without_demo = False/g" /opt/bitnami/odoo/conf/odoo.conf
     if [[ ! -f "/bitnami/odoo/.openg2p_modules_initialized" ]]; then
       chown -R odoo:root /bitnami/odoo/
       . /opt/bitnami/odoo/venv/bin/activate &&
       /opt/bitnami/odoo/bin/odoo \
           --config /opt/bitnami/odoo/conf/odoo.conf \
-          -i base,odk-connector,openg2p_package --without-demo=all \
+          -i base,odk-connector,openg2p_package \
           --stop-after-init &&
       deactivate
       chown -R odoo:root /bitnami/odoo/
       touch /bitnami/odoo/.openg2p_modules_initialized
     fi
+
 existingSecret: ""
 
 smtpExistingSecret: ""
@@ -49,6 +50,26 @@ extraEnvVars:
   value: "http://openg2p-mosip-mediator/demoAuth"
 - name: LIMIT_TIME_REAL
   value: "10000"
+- name: access_key
+  value: ""
+- name: secret_access_key
+  value: ""
+- name: username
+  value: ""
+- name: password
+  value: ""
+- name: grant_type
+  value: ""
+- name: tenantName
+  value: ""
+- name: bulkTransferUrl
+  value: ""
+- name: bucketName
+  value: "paymenthub-ee-dev"
+- name: authUrl
+  value: ""
+- name: bulkTransferStatusUrl
+  value: ""
 
 
 replicaCount: 1
